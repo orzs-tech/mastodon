@@ -4,6 +4,13 @@ class StatusesIndex < Chewy::Index
   include FormattingHelper
 
   settings index: { refresh_interval: '30s' }, analysis: {
+    tokenizer: {
+      sudachi_tokenizer: {
+        type: 'sudachi_tokenizer',
+        discard_punctuation: true,
+        ignore_unavailable: true,
+      },
+    },
     filter: {
       english_stop: {
         type: 'stop',
@@ -20,12 +27,15 @@ class StatusesIndex < Chewy::Index
     },
     analyzer: {
       content: {
-        tokenizer: 'uax_url_email',
+        tokenizer: 'sudachi_tokenizer',
         filter: %w(
-          english_possessive_stemmer
           lowercase
-          asciifolding
           cjk_width
+          sudachi_part_of_speech
+          sudachi_ja_stop
+          sudachi_baseform
+          english_possessive_stemmer
+          asciifolding
           english_stop
           english_stemmer
         ),
