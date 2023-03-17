@@ -55,8 +55,7 @@ services:
   #     - '127.0.0.1:9200:9200'
 
   web:
-    build: .
-    image: ghcr.io/mastodon/mastodon
+    image: registry.orzs.tech/server/mastodon:4.1.1
     restart: always
     env_file: .env.production
     command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
@@ -76,8 +75,7 @@ services:
       - ./public/system:/mastodon/public/system
 
   streaming:
-    build: .
-    image: ghcr.io/mastodon/mastodon
+    image: registry.orzs.tech/server/mastodon:4.1.1
     restart: always
     env_file: .env.production
     command: node ./streaming
@@ -94,8 +92,7 @@ services:
       - redis
 
   sidekiq:
-    build: .
-    image: ghcr.io/mastodon/mastodon
+    image: registry.orzs.tech/server/mastodon:4.1.1
     restart: always
     env_file: .env.production
     command: bundle exec sidekiq
